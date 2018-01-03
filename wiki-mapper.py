@@ -10,7 +10,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
     
 #==============================================================================
-#Get links from article
+#Crawler Functions
 def get_internal_links(article):
     """
     Takes the name of a wikipedia article as input and returns all internal
@@ -39,89 +39,104 @@ def get_internal_links(article):
                     links.append(href[6:]) #Only append the name of the article
     return links
 
-#==============================================================================
-#Crawl list of links
 
-#Variables
-article = 'Metallica' #Starting article
-searchFirst = 'depth' #'breadth' or 'depth' search
+def crawl(article, 
+          searchFirst='breadth', 
+          maxItems=1000, 
+          maxBreadth=0, 
+          maxDepth=0,
+          silent=False):
 
-#Set a limit to the crawling
-maxItems=10
-maxBreadth=0
-maxDepth=0
-skip = False #Boolean used for depth-search only
+    
+    print(article)
+    #Define initial variables
+    itemCount = 0 #Initialize the item counter
+    links = get_internal_links(article)
+    if maxBreadth > 0:
+        links = links[:maxBreadth]
+    network = {article:links} #Initialize the output dictionary
+    depth = {article: 1} #Initialize the depth dictionary, for maxDepth control
+    scraped = [] #List of fully scraped articles (all internal links have been scraped according to maxBreadth/Depth)
+    depth_scraped = [] #Similar list as above for depth-search only
+    depthSearch = (searchFirst=='depth') #Set the boolean to handle depth-first search
+    skip = False #Boolean used for depth-search only
 
-itemCount = 0 #Initialize the item counter
-links = get_internal_links(article)
-network = {article:links} #Initialize the output dictionary
-depth = {article: 1} #Initialize the depth dictionary, for maxDepth control
-scraped = [] #List of fully scraped articles (all internal links have been scraped according to maxBreadth/Depth)
-depth_scraped = [] #Similar list as above for depth-search only
-depthSearch = (searchFirst=='depth') #Set the boolean to handle depth-first search
-
-
-print('Variables declared: OK') #Temporary debug line
-
-
-#Main program
-if maxBreadth > 0:
-    links = links[:maxBreadth]
+    #Handle wrong inputs for searchFirst
+    #TODO: Handle all wrong inputs?
+    if searchFirst!='breadth' and searchFirst!='depth':
+        print("Unexpected input for searchFirst, please chose one of 'breadth/depth'")
+        raise
+    if silent==False:
+        #Print starting output
+        print('Running Wikipedia crawler with the following options: ')
+        print('{}-first search,'.format(searchFirst))
+        print('maxItems  : {},'.format(maxItems))
+        print('maxBreadth: {},'.format(maxBreadth))
+        print('maxDepth  : {}\n\n'.format(maxDepth))
         
-#Repeat this step until we reach the maxItems threshold
-while itemCount <= maxItems:
-    #Iterate over the keys who aren't fully scraped according to maxBreadth/Depth (nodes)
-    if depthSearch:
-        keys = [k for k in network.keys() if k not in depth_scraped]
-        if len(keys)==0: #Max depth reached
-            keys = [k for k in network.keys() if k not in scraped]
-    else:
-        keys = [k for k in network.keys() if k not in scraped]
-    
-    #We have scraped everything allowed by maxBreadth/Depth
-    if len(keys)==0:
-        break
-    
-    #Iterate over nodes that haven't been scraped
-    for k in keys:
-        if maxDepth == 0 or maxDepth > depth[k]:
-            print('key :', k) #Temp debug line
-            #Iterate over the values (edges / relationships / internal links)
-            for v in get_internal_links(k):
-                print(k, '-', 'Item', itemCount, ':', v) #Temp debug line
-                if v not in network.keys(): #Add them to the keys if not present
-                    links = get_internal_links(v) #Get the internal links
-                    if maxBreadth == 0: #Set the max breadth as large as possible
-                        maxBreadth = len(links)
-                        mB = maxBreadth
-                    #Special case for depth-first search
-                    elif depthSearch:
-                        mB = maxBreadth #Use np.isin() with numpy 1.13
-                        while len(links[:mB]) - sum(np.in1d(links[:mB], list(network.keys()))) == 0:
-                            mB += 1
-                    else:
-                        mB = maxBreadth
-                    
-                #Add the edge entry as a node 
-                network[v] = links[:mB] #Only assign links up to maxBreadth
-                depth[v] = depth[k] + 1 #Set the depth on the children-node
-                itemCount += 1
-
-                #Exit if we have reached the max item threshold
-                if itemCount >= maxItems:
-                    break
-                if depthSearch:
-                    depth_scraped.append(k) #Append the father-node to the special list
-                    skip = True
-                    break #Only add the first edge as a node
-        if skip==True:
-            skip = False
-            break
+    #Repeat this step until we reach the maxItems threshold
+    while itemCount <= maxItems:
+        #Iterate over the keys who aren't fully scraped according to maxBreadth/Depth (nodes)
+        if depthSearch:
+            keys = [k for k in network.keys() if k not in depth_scraped]
+            if len(keys)==0: #Max depth reached
+                keys = [k for k in network.keys() if k not in scraped]
         else:
-            scraped.append(k) #The node doesn't have to be scraped again
-            depth_scraped.append(k)
-        if itemCount >= maxItems:
-            break
+            keys = [k for k in network.keys() if k not in scraped]
+        #We have scraped everything allowed by maxBreadth/Depth
+        if len(keys)==0:
+            return network
+        #Iterate over nodes that haven't been scraped
+        for k in keys:
+            if maxDepth == 0 or maxDepth > depth[k]:
+                print('key :', k) #Temp debug line
+                #Iterate over the values (edges / relationships / internal links)
+                for v in get_internal_links(k):
+                    print(k, '-', 'Item', itemCount, ':', v) #Temp debug line
+                    if v not in network.keys(): #Add them to the keys if not present
+                        links = get_internal_links(v) #Get the internal links
+                        if maxBreadth == 0: #Set the max breadth as large as possible
+                            maxBreadth = len(links)
+                            mB = maxBreadth
+                        #Special case for depth-first search
+                        elif depthSearch:
+                            mB = maxBreadth #Use np.isin() with numpy 1.13
+                            while len(links[:mB]) - sum(np.in1d(links[:mB], list(network.keys()))) == 0:
+                                mB += 1
+                        else:
+                            mB = maxBreadth
+                        #Add the edge entry as a node 
+                        network[v] = links[:mB] #Only assign links up to maxBreadth
+                        depth[v] = depth[k] + 1 #Set the depth on the children-node
+                        itemCount += 1
+                        if silent==False and itemCount % 25 == 0:
+                            print('{:6} items scraped. - last one: {}'.format(itemCount, v))
+                        #Exit if we have reached the max item threshold
+                        if itemCount >= maxItems:
+                            return network
+                        if depthSearch:
+                            depth_scraped.append(k) #Append the father-node to the special list
+                            skip = True
+                            break #Only add the first edge as a node
+            if skip==True:
+                skip = False
+                break
+            else:
+                scraped.append(k) #The node doesn't have to be scraped again
+                depth_scraped.append(k)
+            if itemCount >= maxItems:
+                return network
+    return network
+
+#==============================================================================
+#Variables
+article = 'Rayman' #Starting article
+skip = False #Boolean used for depth-search only
+network = crawl(article=article,
+                searchFirst='depth',
+                 maxBreadth=0,
+                 maxDepth=0,
+                 maxItems=10)
         
 #==============================================================================
 #Create network and chart
