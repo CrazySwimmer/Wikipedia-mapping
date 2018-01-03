@@ -5,6 +5,8 @@
 from bs4 import BeautifulSoup
 import requests
 import numpy as np
+import networkx as nx
+import matplotlib.pyplot as plt
     
 #==============================================================================
 #Get links from article
@@ -119,3 +121,29 @@ while itemCount <= maxItems:
             depth_scraped.append(k)
         if itemCount >= maxItems:
             break
+        
+#==============================================================================
+#Create network and chart
+plotTitle = ''
+with_labels=False
+cmap='Wistia'
+
+#Transform the data to a networkx Graph object
+G = nx.Graph(network)
+#Print the size of the network
+print('The network has {} nodes and {} edges'.format(len(G.nodes()), len(G.edges())))
+
+mapping = [] #Initialize output
+for node in G.nodes():
+    if node in network.keys():
+        mapping.append(len(network[node])) #Append the count of values if the node is a key
+    else:
+        mapping.append(0) #0 if the node is not a key
+
+plt.figure(figsize=(30,15)) #Set plot size
+plt.title(plotTitle) #Set plot title
+#Draw the graph (careful, can be very long)
+nx.draw(G,
+        node_color=mapping,
+        with_labels=with_labels,
+        cmap=cmap)
