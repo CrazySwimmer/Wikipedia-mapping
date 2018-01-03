@@ -3,6 +3,7 @@
 #==============================================================================
 #Load modules
 from bs4 import BeautifulSoup
+from itertools import compress
 import requests
 import numpy as np
 import networkx as nx
@@ -127,6 +128,18 @@ while itemCount <= maxItems:
 plotTitle = ''
 with_labels=False
 cmap='Wistia'
+
+#Clean crawl data (we remove 'end-nodes', i.e. values that are not present in the keys or other values)
+newData = network
+for k1, v1 in network.items(): #Loop to discard nodes with only 1 edge
+    msk = np.in1d(list(v1), list(network.keys())) #Keep values that are also nodes (keys)
+    for k2, v2 in network.items():
+        if k1 != k2:
+            msk2 = np.in1d(list(v1), list(v2)) #Keep values, that have multiple nodes connections
+            #OR-filter on msk, True if at least 1 is True, else False
+            msk = [max(msk[i], msk2[i]) for i in range(len(v1))]
+    newData[k1] = list(compress(v1, msk)) #Filter out items that don't belong to msk   
+
 
 #Transform the data to a networkx Graph object
 G = nx.Graph(network)
