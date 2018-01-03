@@ -9,6 +9,16 @@ import numpy as np
 #==============================================================================
 #Get links from article
 def get_internal_links(article):
+    """
+    Takes the name of a wikipedia article as input and returns all internal
+    link the article refers to.
+    --------------
+    Input:  - article : String
+             e.g. 'Python_(programming_language)'
+    
+    Output: - links   : List of Strings
+             e.g. ['Guido_van_Rossum', 'Interpreted_language', 'XML', ...]
+    """
     links = [] #Initialize an empty list of links
     url = 'https://en.wikipedia.org/wiki/' + article
     #Build the BeautifulSoup item
@@ -31,7 +41,7 @@ def get_internal_links(article):
 
 #Variables
 article = 'Metallica' #Starting article
-searchFirst='depth' #'breadth' or 'depth' search
+searchFirst = 'depth' #'breadth' or 'depth' search
 
 #Set a limit to the crawling
 maxItems=10
