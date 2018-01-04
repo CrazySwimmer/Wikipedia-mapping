@@ -175,43 +175,64 @@ def drop_endnodes(data):
                 msk = [max(msk[i], msk2[i]) for i in range(len(v1))]
         newData[k1] = list(compress(v1, msk)) #Filter out items that don't belong to msk
 
-#==============================================================================
-#Variables
-article = 'Rayman' #Starting article
-skip = False #Boolean used for depth-search only
-network = crawl(article=article,
-                searchFirst='depth',
-                 maxBreadth=0,
-                 maxDepth=0,
-                 maxItems=10)
-        
-#==============================================================================
-#Create network and chart
-plotTitle = ''
-with_labels=False
-cmap='Wistia'
-keep_endnodes=False
 
-if not keep_endnodes:
+def summarize_crawl(data, plotTitle='', with_labels=False, 
+                    cmap='Wistia', keep_end_nodes=False):
+    """
+    Takes a 'data' dictionary and some formatting options.
+    Creates a networkx.Graph object and plot it, print the run-time and return nothing.
+    --------------
+    Input:  - data              : Dictionary
+             e.g. {'article1': ['article2', 'article3', ...],
+                   'article2': ['article13', 'article7', ...],
+                   ...}
+            - plotTitle         : String (default='')
+             e.g. 'Generic Plot Title'
+            - with_labels       : Boolean (default=False)
+             prints the labels on the nodes when plotting
+            - cmap              : String (default='Wistia')
+             e.g. 'viridis', 'Wistia, 'YlGnBu'
+             see: https://matplotlib.org/examples/color/colormaps_reference.html
+            - keep_end_nodes    : Boolean (default=False)
+             keep end-nodes, i.e. nodes that have only 1 edge (single values in the 'data' dictionary)
+                 WARNING: setting this option to True with large 'data' dictionary 
+                          can tremendously slow down the plotting process
+    Output: - None
+    """
     #Clean crawl data (we remove 'end-nodes', i.e. values that are not present in the keys or other values)
-    drop_endnodes(network)
+    if not keep_end_nodes:
+        drop_endnodes(network)
     
-#Transform the data to a networkx Graph object
-G = nx.Graph(network)
-#Print the size of the network
-print('The network has {} nodes and {} edges'.format(len(G.nodes()), len(G.edges())))
+    #Transform the data to a networkx Graph object
+    G = nx.Graph(network)
+    #Print the size of the network
+    print('The network has {} nodes and {} edges'.format(len(G.nodes()), len(G.edges())))
 
-mapping = [] #Initialize output
-for node in G.nodes():
-    if node in network.keys():
-        mapping.append(len(network[node])) #Append the count of values if the node is a key
-    else:
-        mapping.append(0) #0 if the node is not a key
+    mapping = [] #Initialize output
+    for node in G.nodes():
+        if node in network.keys():
+            mapping.append(len(network[node])) #Append the count of values if the node is a key
+        else:
+            mapping.append(0) #0 if the node is not a key
 
-plt.figure(figsize=(30,15)) #Set plot size
-plt.title(plotTitle) #Set plot title
-#Draw the graph (careful, can be very long)
-nx.draw(G,
-        node_color=mapping,
-        with_labels=with_labels,
-        cmap=cmap)
+    plt.figure(figsize=(30,15)) #Set plot size
+    plt.title(plotTitle) #Set plot title
+    #Draw the graph (careful, can be very long)
+    nx.draw(G,
+            node_color=mapping,
+            with_labels=with_labels,
+            cmap=cmap)
+
+#==============================================================================
+#Main program
+article = 'Rayman' #Starting article
+sF = 'depth'    #Search-First: 'breadth' or 'depth'
+mB = 0          #Max breadth
+mD = 0          #Max depth
+mI = 10         #Max items
+
+network = crawl(article=article, searchFirst=sF, maxBreadth=mB,
+                maxDepth=mD,maxItems=mI)
+
+summarize_crawl(data=network, plotTitle='{} : {}-first'.format(article, sF),
+                keep_end_nodes=False)        
