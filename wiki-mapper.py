@@ -46,8 +46,29 @@ def crawl(article,
           maxBreadth=0, 
           maxDepth=0,
           silent=False):
-
-    
+    """
+    Takes the name of a wikipedia article 'article' as starting point 
+    and crawls through all internal links until a total of 'maxItems' are
+    reached. It thens returns a dictionary containing all the items scraped and
+    their internal links.
+    --------------
+    Input:  - article     : String
+             e.g. 'Python_(programming_language)'
+            - searchFirst : String
+             either 'breadth' or 'depth'
+            - maxItems    : Int
+             e.g. 1000
+            - maxBreadth  : Int
+             e.g. 10, if 0 then it will use maximum breadth
+            - maxDepth    : Int
+             e.g. 5, if 0 then it will use maximum depth
+            - silent      : Boolean
+             will print the options used at the beginning if silent=False
+    Output: - results  : Dictionary
+             e.g. {'startingArticle': [link1, link2, link3, ...],
+                   'link1'          : [link132, link133, link51, ...],
+                   ...}
+    """    
     print(article)
     #Define initial variables
     itemCount = 0 #Initialize the item counter
