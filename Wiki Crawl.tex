@@ -26,7 +26,9 @@
 %Rename Contents into Table of Contents
 \renewcommand*\contentsname{Table of Contents}
 
-%Document Start\begin{document}
+%Document Start
+
+\begin{document}
 \maketitle
 \newpage
 
@@ -37,37 +39,40 @@
 
 \section{Introduction}
 
-The amount of accessible data increases everyday. Naturally this places ever greater importance on Data science as it is a proven method of processing such vast numbers of available data points. \cite{dat} Gathering and processing information automatically from 
-the internet is becoming more crucial than ever. Whether it is in order to gain a competitive advantage, to conduct extensive market research, or to simply gather information it is a fundamental advantage to work with algorithms that replace manual labour. 
-This project illustrates, in a simplified manner, one way data science has the ability to tackle such problems. The build crawler gathers the available links within a Wikipedia article and subsequently visualizes its findings through a network-map. 
-There are different approaches on how the crawler selects the links within an article, which will be discussed in further detail in Chapter 4.
+The amount of accessible data increases everyday. Naturally this places ever greater importance on data science as it is a proven method of processing such vast numbers of available data points. \cite{dat} Gathering and processing information automatically from 
+the internet is becoming ever more crucial as we delve deeper into the age of digitization. Whether it is in order to gain a competitive advantage, to conduct extensive market research, or to simply gather information the power of data science can be implemented as a fundamental advantage to replace manual labour with algorithms. 
+This project illustrates, in a simplified manner, one way data science has the ability to tackle problems like these. The build crawler gathers the available links within a Wikipedia article and subsequently visualizes its findings through a network-map. Although various methods exist for achieving the aforementioned goal, the next sections outlines this team's approach along with their reasoning behind the decisions.
+
 
 \section{Language}
 
-The general-purpose programming language Python is widely used for data science worldwide, the reason being that the language allows a broad variety of application forms. \cite{pyt} With regards to this project, Python is not the only language that could be used to build a crawler but it seemed to be the most suitable as the syntax of Python and the prebuilt modules allow an uncomplicated use. The availability of these prebuilt modules enabled us to choose the most suitable one for the project and thus allowed us to place more focus on the customisation of the crawler. Finally, because the team members want to use Python in the future, the choice for the lastest version of Python (3) was clear. Although the team thought the decreased availability of forum articles might lead to an unreasonable amount of effort to solve prevailing problems, it later became apparent that available online resources were more than sufficient to solve the task. 
+The general-purpose programming language Python is widely used for data science worldwide, the reason being that the language allows for a broad variety of application forms. \cite{pyt} With regards to this project, Python is by no means the only language that could be used to build a crawler but it seemed to be the most suitable as the syntax of Python and the prebuilt modules allow an uncomplicated use. The availability of these prebuilt modules enabled the team to choose the most suitable one for the project and thus allowed them to place more focus on the customisation of the crawler itself. Finally, because the team members expect to use Python in the future, the choice for the language's lastest version (3) was clear. while, at first the team thought the limited availability of forum articles might lead to an unreasonable amount of effort to solve prevailing problems, it later became apparent that available online resources were more than sufficient to solve the task. 
 
 
 
 \section{Modules}
 
- \begin{itemize}    %Creating bullet points        \item\textbf{Beautiful Soup}\\
-	Beautiful Soup (bs4) is a Python library that was designed for quick turnaround projects like screen-scraping. It allows an easy way to navigate, search, and modify a parse tree. 	
-	\cite{cru} Therefore it was easy to extract the links from the Wikipedia page without using a lot of code. 
-         \item \textbf{Request}\\
- 	The Request module allows to communicate with HTTP. The request module in Python therefore does not need any manual input and automatically adds query strings to the URL.   
+ \begin{itemize}    %Creating bullet points
+        \item\textbf{Beautiful Soup}\\
+	Beautiful Soup (bs4) is a Python library designed for quick turnaround projects like screen-scraping. It allows for an easy way to navigate, search, and modify a parse tree, making it easy to extract links from the Wikipedia page without using much code. 	
+	\cite{cru} 
+ 
+        \item \textbf{Request}\\
+ 	The Request module enables communication with HTTP. As a result, the request module in Python does not need any manual input and automatically adds query strings to the URL.   
 	\cite{req}
-	        \item \textbf{Networkx}\\
-	``NetworkX is a Python package for the creation, manipulation, and study of the structure, dynamics, and functions of complex networks.'' \cite{net} This module was hence used to  	create the network in order to visualise it afterwards. 
+	
+        \item \textbf{Networkx}\\
+	``NetworkX is a Python package for the creation, manipulation, and study of the structure, dynamics, and functions of complex networks.'' \cite{net} This module is used to create the network, which is subsequently visualised as a map. 
 	
         \item \textbf{Matplotlib}\\
-        The created network with networkx module was then plotted and visualised with the Matplot library. This tools allows to create different types of plots and networks and is very
-        customisable if needed. We used the default plotting version, as it turned out to produce the most readable network graph. 
+        The generated network with the networkx module is plotted and visualised with the Matplot library. This tools allows for the creation of different plot types and networks with a high degree of customizability, if needed. The default version is used for plotting as it consistently produces the most readable network graph. 
         
         \item \textbf{Numpy}\\
         
         (zocco here, please)
         
-            \end{itemize}
+        
+    \end{itemize}
  
 
 \section{Crawler}
@@ -83,9 +88,12 @@ The general-purpose programming language Python is widely used for data science 
 
 (after everything is written someone here, please)
 
-% References 
+
+
+% References 
 \newpage
 \bibliographystyle{apalike} 
 \bibliography{wiki_crawl}
 
-\end{document}
+
+\end{document}
