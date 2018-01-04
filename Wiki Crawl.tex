@@ -1,18 +1,54 @@
 
 %preamble
+\documentclass[10pt]{article}
 
-\documentclass{article} 
-\author{Danilo Zocco \and Nick Stoeckl\\ \and Patrick \and Giani}
+
+\usepackage{times}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{stmaryrd}
+\usepackage{soul}
+\usepackage{booktabs}
+
 \title{Wikipedia Crawler}
+\author{Danilo Zocco\\ 
+	\and Nick Stoeckl\\ 	
+	\and Patrick Waelchli\\ 
+	\and Gian-Reto Bonadurer\\ 
+	\\ \\
+	\small Software Engineering for Economists\\
+	\small Philipp Zahn\\
+	\small University of St. Gallen}
+
 \date{January 5, 2018}
 
-% Content\begin{document}
+%Rename Contents into Table of Contents
+\renewcommand*\contentsname{Table of Contents}
+
+%Document Start\begin{document}
 \maketitle
 \newpage
 
-\title{Wikipedia Crawler}
+
+%Table of Content
+\tableofcontents
+
+\newpage
+
+% Content
 \section{Introduction}
+
+The amount of accessible data increases everyday. Data science is one answer to process such vast numbers of available data points. Therefore gathering and processing informations automatically from 
+the internet is becoming more crucial than ever. In order to gain a comparative advantage, do an extensive market research or simply gather information it is fundamental to work with algorithms that replace manual labour. 
+Hence does this project show a simplistic way of tackling this problem. The build crawler gathers the available links within a Wikipedia article and visualises its findings through a network-map. 
+There are different approaches on how the crawler selects the links within an article but more details for this within Chapter 4.
+
 \section{Language}
+
+The general-purpose programming language Python is widely used for data science worldwide, hence does the language allow a broad variety of application forms. In regards to this project, Python is not the exclusive language which can be used to build a crawler. It simply seemed to be the most suitable as the syntax of Python and the prebuilt modules allow an uncomplicated use. The availability of these prebuilt modules allows to choose the most suitable for the project and thus grants to put the focus on the customisation of the crawler. As the team members want to use Python within the future, the choice for the lastest version of Python (3) was clear. Although the team thought the fewer availability of forum articles could lead to a disproportional increase of effort to solve prevailing problems, but it was found that the assistance through the internet was more than sufficient to solve the task. 
+
+
 \section{Modules}
 \section{Crawler}
 \subsection{Extraction from the internet}
