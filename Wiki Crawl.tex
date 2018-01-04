@@ -12,10 +12,10 @@
 \usepackage{booktabs}
 
 \title{Wikipedia Crawler}
-\author{Danilo Zocco\\ 
-	\and Nick Stoeckl\\ 	
-	\and Patrick Waelchli\\ 
-	\and Gian-Reto Bonadurer\\ 
+\author{Danilo Zocco
+	\and Nick Stoeckl
+	\and Patrick Waelchli 
+	\and Gian-Reto Bonadurer
 	\\ \\
 	\small Software Engineering for Economists\\
 	\small Philipp Zahn\\
@@ -26,52 +26,66 @@
 %Rename Contents into Table of Contents
 \renewcommand*\contentsname{Table of Contents}
 
-%Document Start
-
-\begin{document}
+%Document Start\begin{document}
 \maketitle
 \newpage
 
-
-%Table of Content
 \tableofcontents
-
 \newpage
 
 % Content
+
 \section{Introduction}
 
-The amount of accessible data increases everyday. Naturally this places ever greater importance on Data science as it is a proven method of processing such vast numbers of available data points. Gathering and processing information automatically from 
+The amount of accessible data increases everyday. Naturally this places ever greater importance on Data science as it is a proven method of processing such vast numbers of available data points. \cite{dat} Gathering and processing information automatically from 
 the internet is becoming more crucial than ever. Whether it is in order to gain a competitive advantage, to conduct extensive market research, or to simply gather information it is a fundamental advantage to work with algorithms that replace manual labour. 
 This project illustrates, in a simplified manner, one way data science has the ability to tackle such problems. The build crawler gathers the available links within a Wikipedia article and subsequently visualizes its findings through a network-map. 
 There are different approaches on how the crawler selects the links within an article, which will be discussed in further detail in Chapter 4.
 
 \section{Language}
 
-The general-purpose programming language Python is widely used for data science worldwide, the reason being that the language allows a broad variety of application forms. With regards to this project, Python is not the only language that could be used to build a crawler but it seemed to be the most suitable as the syntax of Python and the prebuilt modules allow an uncomplicated use. The availability of these prebuilt modules enabled us to choose the most suitable one for the project and thus allowed us to place more focus on the customisation of the crawler. Finally, because the team members want to use Python in the future, the choice for the lastest version of Python (3) was clear. Although the team thought the decreased availability of forum articles might lead to an unreasonable amount of effort to solve prevailing problems, it later became apparent that available online resources were more than sufficient to solve the task. 
+The general-purpose programming language Python is widely used for data science worldwide, the reason being that the language allows a broad variety of application forms. \cite{pyt} With regards to this project, Python is not the only language that could be used to build a crawler but it seemed to be the most suitable as the syntax of Python and the prebuilt modules allow an uncomplicated use. The availability of these prebuilt modules enabled us to choose the most suitable one for the project and thus allowed us to place more focus on the customisation of the crawler. Finally, because the team members want to use Python in the future, the choice for the lastest version of Python (3) was clear. Although the team thought the decreased availability of forum articles might lead to an unreasonable amount of effort to solve prevailing problems, it later became apparent that available online resources were more than sufficient to solve the task. 
+
 
 
 \section{Modules}
 
- \begin{itemize}
-        \item \textbf{Beautifulsoup 4}\\
- The Beautifulsoup4 is used as a parser.
-        \item \textbf{Request}
-        \item \textbf{Networkx}
-        \item \textbf{Matplotlib}
-        \item \textbf{Numpy}
-    \end{itemize}
+ \begin{itemize}    %Creating bullet points        \item\textbf{Beautiful Soup}\\
+	Beautiful Soup (bs4) is a Python library that was designed for quick turnaround projects like screen-scraping. It allows an easy way to navigate, search, and modify a parse tree. 	
+	\cite{cru} Therefore it was easy to extract the links from the Wikipedia page without using a lot of code. 
+         \item \textbf{Request}\\
+ 	The Request module allows to communicate with HTTP. The request module in Python therefore does not need any manual input and automatically adds query strings to the URL.   
+	\cite{req}
+	        \item \textbf{Networkx}\\
+	``NetworkX is a Python package for the creation, manipulation, and study of the structure, dynamics, and functions of complex networks.'' \cite{net} This module was hence used to  	create the network in order to visualise it afterwards. 
+	
+        \item \textbf{Matplotlib}\\
+        The created network with networkx module was then plotted and visualised with the Matplot library. This tools allows to create different types of plots and networks and is very
+        customisable if needed. We used the default plotting version, as it turned out to produce the most readable network graph. 
+        
+        \item \textbf{Numpy}\\
+        
+        (zocco here, please)
+        
+            \end{itemize}
  
 
 \section{Crawler}
-\subsection{Extraction from the internet}
-\subsection{Graphing the network}
+	\subsection{Extraction from the internet}
+	
+	(zocco here, please)
+	
+	\subsection{Graphing the network}
+	
+	(zocco here, please)
+	
 \section{Conclusion}
 
+(after everything is written someone here, please)
 
+% References 
+\newpage
+\bibliographystyle{apalike} 
+\bibliography{wiki_crawl}
 
-% References and End of Paper 
-%\bibliography{Bibliography-File} 
-%\bibliographystyle{aaai}
-
-\end{document}
+\end{document}
