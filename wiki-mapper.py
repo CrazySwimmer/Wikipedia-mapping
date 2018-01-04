@@ -150,6 +150,32 @@ def crawl(article,
     return network
 
 #==============================================================================
+#Network Plotting Help Function
+def drop_endnodes(data):
+    """
+    Takes the 'data' dictionary used to build a networkx.Graph object.
+    Cleans the network by dropping the endnodes that add nothing to the graph.
+    Returns a modified dictionary 'data' without endnodes.
+    --------------
+    Input:  - data    : Dictionary
+             e.g. {'article1': ['article2', 'article3', ...],
+                   'article2': ['article13', 'article7', ...],
+                   ...}
+    Output: - newData : Dictionary
+             e.g. {'article1': ['article2', 'article3', ...],
+                   'article2': ['article13', 'article7', ...],
+    """
+    newData = data
+    for k1, v1 in data.items():
+        msk = np.in1d(list(v1), list(data.keys())) #Keep values that are also nodes (keys)
+        for k2, v2 in data.items():
+            if k1 != k2:
+                msk2 = np.in1d(list(v1), list(v2)) #Keep values, that have multiple nodes connections
+                #OR-filter on msk, True if at least 1 is True, else False
+                msk = [max(msk[i], msk2[i]) for i in range(len(v1))]
+        newData[k1] = list(compress(v1, msk)) #Filter out items that don't belong to msk
+
+#==============================================================================
 #Variables
 article = 'Rayman' #Starting article
 skip = False #Boolean used for depth-search only
@@ -164,19 +190,12 @@ network = crawl(article=article,
 plotTitle = ''
 with_labels=False
 cmap='Wistia'
+keep_endnodes=False
 
-#Clean crawl data (we remove 'end-nodes', i.e. values that are not present in the keys or other values)
-newData = network
-for k1, v1 in network.items(): #Loop to discard nodes with only 1 edge
-    msk = np.in1d(list(v1), list(network.keys())) #Keep values that are also nodes (keys)
-    for k2, v2 in network.items():
-        if k1 != k2:
-            msk2 = np.in1d(list(v1), list(v2)) #Keep values, that have multiple nodes connections
-            #OR-filter on msk, True if at least 1 is True, else False
-            msk = [max(msk[i], msk2[i]) for i in range(len(v1))]
-    newData[k1] = list(compress(v1, msk)) #Filter out items that don't belong to msk   
-
-
+if not keep_endnodes:
+    #Clean crawl data (we remove 'end-nodes', i.e. values that are not present in the keys or other values)
+    drop_endnodes(network)
+    
 #Transform the data to a networkx Graph object
 G = nx.Graph(network)
 #Print the size of the network
