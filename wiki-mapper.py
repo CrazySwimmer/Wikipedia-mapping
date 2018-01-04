@@ -151,19 +151,39 @@ def crawl(article,
 
 #==============================================================================
 #Network Plotting Help Function
+def get_mapping(nodes, data):
+    """
+    Takes the 'nodes' value of a networkx.Graph object and the 'data' dictionary used to build it.
+    Returns a list containing the number of values each node has in the dictionary.
+    --------------
+    Input:  - nodes   : networkx.Graph.nodes()
+             e.g. nx.Graph(data).nodes()
+            - data    : Dictionary
+             e.g. {'article1': ['article2', 'article3', ...],
+                   'article2': ['article13', 'article7', ...],
+                   ...}
+    Output: - mapping : List of Integers
+             e.g. [132, 21, 521, ...]
+    """
+    mapping = [] #Iitialize output
+    for node in nodes:
+        if node in data.keys():
+            mapping.append(len(data[node])) #Append the count of values if the node is a key
+        else:
+            mapping.append(0) #0 if the node is not a key
+    return mapping
+
+
 def drop_endnodes(data):
     """
     Takes the 'data' dictionary used to build a networkx.Graph object.
     Cleans the network by dropping the endnodes that add nothing to the graph.
-    Returns a modified dictionary 'data' without endnodes.
     --------------
     Input:  - data    : Dictionary
              e.g. {'article1': ['article2', 'article3', ...],
                    'article2': ['article13', 'article7', ...],
                    ...}
-    Output: - newData : Dictionary
-             e.g. {'article1': ['article2', 'article3', ...],
-                   'article2': ['article13', 'article7', ...],
+    Output: - None
     """
     newData = data
     for k1, v1 in data.items():
@@ -177,7 +197,7 @@ def drop_endnodes(data):
 
 
 def summarize_crawl(data, plotTitle='', with_labels=False, 
-                    cmap='Wistia', keep_end_nodes=False):
+                    flexible_nodesize=True, cmap='Wistia', keep_end_nodes=False):
     """
     Takes a 'data' dictionary and some formatting options.
     Creates a networkx.Graph object and plot it, print the run-time and return nothing.
@@ -190,6 +210,8 @@ def summarize_crawl(data, plotTitle='', with_labels=False,
              e.g. 'Generic Plot Title'
             - with_labels       : Boolean (default=False)
              prints the labels on the nodes when plotting
+            - flexible_nodesize : Boolean (default=True)
+             scale nodesize according to the number of values each key (main node) has
             - cmap              : String (default='Wistia')
              e.g. 'viridis', 'Wistia, 'YlGnBu'
              see: https://matplotlib.org/examples/color/colormaps_reference.html
@@ -208,31 +230,39 @@ def summarize_crawl(data, plotTitle='', with_labels=False,
     #Print the size of the network
     print('The network has {} nodes and {} edges'.format(len(G.nodes()), len(G.edges())))
 
-    mapping = [] #Initialize output
-    for node in G.nodes():
-        if node in network.keys():
-            mapping.append(len(network[node])) #Append the count of values if the node is a key
-        else:
-            mapping.append(0) #0 if the node is not a key
-
     plt.figure(figsize=(30,15)) #Set plot size
     plt.title(plotTitle) #Set plot title
+    mapping = get_mapping(G.nodes(), data) #Set mapping for color and nodesize
     #Draw the graph (careful, can be very long)
-    nx.draw(G,
-            node_color=mapping,
-            with_labels=with_labels,
-            cmap=cmap)
+    if flexible_nodesize:
+        nx.draw(G, 
+                node_color=mapping, 
+                with_labels=with_labels, 
+                node_size=mapping, 
+                cmap=cmap)
+    else:
+        nx.draw(G,
+               node_color=mapping,
+               with_labels=with_labels,
+               cmap=cmap)
 
 #==============================================================================
-#Main program
-article = 'Rayman' #Starting article
-sF = 'depth'    #Search-First: 'breadth' or 'depth'
-mB = 0          #Max breadth
-mD = 0          #Max depth
-mI = 10         #Max items
+#Main program    
+article = 'Rayman'  #Starting article
+#---------------------------------------------------
+sF = 'depth'        #Search-First: 'breadth' or 'depth'
+mB = 5              #Max breadth
+mD = 20             #Max depth
+mI = 20             #Max items
+#---------------------------------------------------
+with_labels=True            #Label names for nodes
+flexible_nodesize=False     #Node-size adapt to recurrence of node in the network
+keep_end_nodes=False
+
 
 network = crawl(article=article, searchFirst=sF, maxBreadth=mB,
                 maxDepth=mD,maxItems=mI)
 
 summarize_crawl(data=network, plotTitle='{} : {}-first'.format(article, sF),
-                keep_end_nodes=False)        
+                with_labels=with_labels, flexible_nodesize=flexible_nodesize,
+                keep_end_nodes=keep_end_nodes)       
