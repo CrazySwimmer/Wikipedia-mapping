@@ -149,6 +149,7 @@ def crawl(article,
                 return network
     return network
 
+
 #==============================================================================
 #Network Plotting Help Function
 def get_mapping(nodes, data):
@@ -246,23 +247,45 @@ def summarize_crawl(data, plotTitle='', with_labels=False,
                with_labels=with_labels,
                cmap=cmap)
 
+
+#==============================================================================
+def main_call(article, sF, mB, mD, mI, with_labels=False, flexible_nodesize=True):
+    """
+    Takes a Wikipedia 'article' name and some options for the crawler, crawls the article and
+    prints out the summarize_crawl function as well as a summary of the options called.
+    --------------
+    Input:  - article           : Dictionary
+             e.g. 'Julia_(programming_language)'
+            - sF                : String
+             either 'breadth' or 'depth', searchFirst option for the crawler
+            - mB                : Int
+             e.g. 10, maxBreadth option for the crawler
+            - mD                : Int
+             e.g. 15, maxDepth option for the crawler
+            - mI                : Int
+             e.g. 50, maxItems option for the crawler
+            - with_labels       : Boolean (default=False)
+             prints the labels on the nodes when plotting (see summarize_crawl)
+            - flexible_nodesize : Boolean (default=True)
+             scale nodesize according to the number of values each key (main node) has (see summarize_crawl)
+    Output: - None   
+    """
+    network = crawl(article=article, searchFirst=sF, maxBreadth=mB,
+                    maxDepth=mD,maxItems=mI) 
+    summarize_crawl(data=network, plotTitle='{} : {}-first'.format(article, sF),
+                    with_labels=with_labels, flexible_nodesize=flexible_nodesize)
+    print('Max. Breadth: {:4} | Max. Depth: {:4} | Max. Items: {}'.format(mB, mD, mI))
+
+
 #==============================================================================
 #Main program    
-article = 'Rayman'  #Starting article
-#---------------------------------------------------
-sF = 'depth'        #Search-First: 'breadth' or 'depth'
-mB = 5              #Max breadth
-mD = 20             #Max depth
-mI = 20             #Max items
-#---------------------------------------------------
+article = 'Rayman'          #Starting article
+sF = 'depth'                #Search-First: 'breadth' or 'depth'
+mB = 5                      #Max breadth
+mD = 20                     #Max depth
+mI = 20                     #Max items
 with_labels=True            #Label names for nodes
 flexible_nodesize=False     #Node-size adapt to recurrence of node in the network
-keep_end_nodes=False
-
-
-network = crawl(article=article, searchFirst=sF, maxBreadth=mB,
-                maxDepth=mD,maxItems=mI)
-
-summarize_crawl(data=network, plotTitle='{} : {}-first'.format(article, sF),
-                with_labels=with_labels, flexible_nodesize=flexible_nodesize,
-                keep_end_nodes=keep_end_nodes)       
+#----------------------------------------------------------
+main_call(article=article, sF=sF, mB=mB, mD=mD, mI=mI, with_labels=with_labels,
+          flexible_nodesize=flexible_nodesize)   
