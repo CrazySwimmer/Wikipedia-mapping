@@ -84,7 +84,6 @@ def crawl(article,
     skip = False #Boolean used for depth-search only
 
     #Handle wrong inputs for searchFirst
-    #TODO: Handle all wrong inputs?
     if searchFirst!='breadth' and searchFirst!='depth':
         print("Unexpected input for searchFirst, please chose one of 'breadth/depth'")
         raise
@@ -225,10 +224,10 @@ def summarize_crawl(data, plotTitle='', with_labels=False,
     """
     #Clean crawl data (we remove 'end-nodes', i.e. values that are not present in the keys or other values)
     if not keep_end_nodes:
-        drop_endnodes(network)
+        drop_endnodes(data)
     
     #Transform the data to a networkx Graph object
-    G = nx.Graph(network)
+    G = nx.Graph(data)
     #Print the size of the network
     print('The network has {} nodes and {} edges'.format(len(G.nodes()), len(G.edges())))
 
@@ -292,4 +291,4 @@ with_labels=True            #Label names for nodes
 flexible_nodesize=False     #Node-size adapt to recurrence of node in the network
 #----------------------------------------------------------
 main_call(article=article, sF=sF, mB=mB, mD=mD, mI=mI, with_labels=with_labels,
-          flexible_nodesize=flexible_nodesize) 
+          flexible_nodesize=flexible_nodesize)
