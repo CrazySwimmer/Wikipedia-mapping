@@ -74,12 +74,18 @@ Finally, because the team members expect to use Python in the future, the choice
 The program is subdivided into two main parts: a crawler that gets links from Wikipedia and a builder that takes those links, builds a network and finally generates a chart of it.
 
 	\subsection{Crawler}
-	The function of a crawler is to access a webpage and to retrieve the hyperlinks listed on it. It then accesses those new links and repeat the process for each and every page it visits. This is not to be confused with a scrapper that proceeds almost in the same way but will usually gather other pieces of information such as pictures or text. \par \noindent
-We faced one main issue while building the crawler. In order not to end up crawling the entire Wikipedia website, we set a limit to the number of items crawled. As a result, depending on the starting article we choose, the crawler hits this limit after only a few pages. To fix this, we can either increase the maximum items we want to crawl (which also increase the running time) or choose to crawl by depth instead of breadth. In the second option, instead of crawling every link on a page and then moving to the next page, the crawler will always take the first internal link found in an article and directly start crawling the corresponding new article. This allows for more pages to be crawled before reaching the maximum items limit and for a more interesting and less clutterd network to be built and graphed.
+	The function of a crawler is to access a webpage and to retrieve the hyperlinks listed on it. It then accesses those new links and repeat the process for each and every page it visits. This is not to be confused with a scrapper that proceeds almost in the same way but will usually gather other pieces of information such as pictures or text.
+\par \noindent
+We faced one main issue while building the crawler. In order not to end up crawling the entire Wikipedia website, we set a limit to the number of items crawled. As a result, depending on the starting article we choose, the crawler hits this limit after only a few pages. To fix this, we can either increase the maximum items we want to crawl (which also increase the running time) or choose to crawl by depth instead of breadth. In the second option, instead of crawling every link on a page and then moving to the next page, the crawler will always take the first internal link found in an article and directly start crawling the corresponding new article. This allows for more pages to be crawled before reaching the maximum items limit and for a less clutterd network to be built and graphed.
+\par \noindent
+To illustrate the difference between "breadth-first" and "depth-first" search, we included one graph for each. They are both built with "University of St. Gallen" as starting article and have a limit of 15 and 20 items, respectively. Figure 1 illustrates breadth-first search while Figure 2 illustrates depth-first search.
+
 	
 	\subsection{Building and drawing the network}
-	The input to this part is a dictionary of Wikipedia articles and their corresponding internal links. Before building the network object with the NetworkX module, we use NumPy and itertools to suppress the pages that would become end nodes (i.e articles linked to one and only one other article). These end nodes do not add much information to the network and are often hardly readable on the graph produced. \par \noindent
-Once this is done, we use the NetworkX module to build a networkx.Graph object. These are composed of nodes (articles) and edges (links between articles). Finally, we are able to graph the network with Matplotlib. \par \noindent
+	The input to this part is a dictionary of Wikipedia articles and their corresponding internal links. Before building the network object with the NetworkX module, we use NumPy and itertools to suppress the pages that would become end nodes (i.e articles linked to one and only one other article). These end nodes do not add much information to the network and are often hardly readable on the graph produced. (See Figure 3 for an example.)
+\par \noindent
+Once this is done, we use the NetworkX module to build a networkx.Graph object. These are composed of nodes (articles) and edges (links between articles). Finally, we are able to graph the network with Matplotlib.
+\par \noindent
 
 (Add paragraph about available parameters and their effects/behaviour)
 (Add picture to illustrate difference btw depth-first and breadth-first search)
