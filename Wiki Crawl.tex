@@ -19,7 +19,9 @@
 %Rename Contents into Table of Contents
 \renewcommand*\contentsname{Table of Contents}
 
-%Document Start\begin{document}
+%Document Start
+
+\begin{document}
 \maketitle
 \newpage
 
@@ -44,12 +46,15 @@ Finally, because the team members expect to use Python in the future, the choice
 
 \section{Modules}
 
- \begin{itemize}    %Creating bullet points        \item\textbf{Beautiful Soup}\\
+ \begin{itemize}    %Creating bullet points
+        \item\textbf{Beautiful Soup}\\
 	Beautiful Soup (bs4) is a Python library designed for quick turnaround projects like screen-scraping. It allows for an easy way to navigate, search, and modify a parse tree, making it 	easy to extract links from the Wikipedia page without using much code. \cite{cru} 
-         \item \textbf{Request}\\
+ 
+        \item \textbf{Requests}\\
  	The Request module enables communication with HTTP. As a result, the request module in Python does not need any manual input and automatically adds query strings to the  	
 	URL.   \cite{req}
-	        \item \textbf{Networkx}\\
+	
+        \item \textbf{NetworkX}\\
 	``NetworkX is a Python package for the creation, manipulation, and study of the structure, dynamics, and functions of complex networks.'' \cite{net} This module is used to create 
 	the network, which is subsequently visualised as a map. 
 	
@@ -57,29 +62,35 @@ Finally, because the team members expect to use Python in the future, the choice
         The generated network with the networkx module is plotted and visualised with the Matplot library. This tools allows for the creation of different plot types and networks with a high 	
         degree of customizability, if needed. The default version is used for plotting as it consistently produces the most readable network graph. 
         
-        \item \textbf{Numpy}\\
+        \item \textbf{NumPy}\\
         
         (zocco here, please)
         
-            \end{itemize}
+        
+    \end{itemize}
  
 
-\section{Crawler}
-	\subsection{Extraction from the internet}
+\section{Program}
+	\subsection{Crawler}
+	The function of a crawler is to access a webpage and to retrieve the hyperlinks listed on it. It then accesses those new links and repeat the process for each and every page it visits. This is not to be confused with a scrapper that proceeds almost in the same way but will usually gather other pieces of information such as pictures or text.
+We faced one main issue while building the crawler. In order not to end up crawling the entire Wikipedia website, we set a limit to the number of items crawled. As a result, depending on the starting article we choose, the crawler hits this limit after only a few pages. To fix this, we can either increase the maximum items we want to crawl (which also increase the running time) or choose to crawl by depth instead of breadth. In the second option, instead of crawling every link on a page and then moving to the next page, the crawler will always take the first internal link found in an article and directly start crawling the corresponding new article. This allows for more pages to be crawled before reaching the maximum items limit and for a more interesting and less clutterd network to be built and graphed.
 	
-	(zocco here, please)
-	
-	\subsection{Graphing the network}
-	
-	(zocco here, please)
+	\subsection{Building and drawing the network}
+	The input to this part is a dictionary of Wikipedia articles and their corresponding internal links. Before building the network object with the NetworkX module, we use NumPy and itertools to suppress the pages that would become end nodes (i.e articles linked to one and only one other article). These end nodes do not add much information to the network and are often hardly readable on the graph produced.
+Once this is done, we use the NetworkX module to build a networkx.Graph object. These are composed of nodes (articles) and edges (links between articles). Finally, we are able to graph the network with Matplotlib.
+
+(Add paragraph about available parameters and their effects/behaviour)
 	
 \section{Conclusion}
 
 (after everything is written someone here, please)
 
-% References & End of document
+
+
+% References & End of document
 \newpage
 \bibliographystyle{apacite} 
 \bibliography{wiki_crawl}
 
-\end{document}
+
+\end{document}
