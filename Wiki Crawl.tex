@@ -79,13 +79,13 @@ The general-purpose programming language Python is widely used for data science 
  
 
 \section{Program}
-The program is subdivided into two main parts: a crawler that gets links from Wikipedia and a builder that takes those links, builds a network and finally generates a chart of it.
+The program is subdivided into two main parts: a crawler that gets links from Wikipedia and a builder that takes those links, builds a network, and generates a chart of it.
 
 	\subsection{Crawler}
-	The function of a crawler is to access a webpage and to retrieve the hyperlinks listed on it. It then accesses those new links and repeat the process for each and every page it 	
+	The function of a crawler is to access a webpage and to retrieve the hyperlinks listed on it. It then accesses those new links and repeats the process for each and every page it 	
 	visits. This is not to be confused with a scrapper that proceeds almost in the same way but will usually gather other pieces of information such as pictures or text.
 	\par \noindent
-	We faced one main issue while building the crawler. In order not to end up crawling the entire Wikipedia website, we set a limit to the number of items crawled. As a result, 	
+	We faced one main issue while building the crawler: In order not to end up crawling the entire Wikipedia website, we set a limit to the number of items crawled. As a result, 	
 	depending on the starting article we choose, the crawler hits this limit after only a few pages. To fix this, we can either increase the maximum items we want to crawl (which also 
 	increase the running time) or choose to crawl by depth instead of breadth. In the second option, instead of crawling every link on a page and then moving to the next page, the 
 	crawler will always take the first internal link found in an article and directly start crawling the corresponding new article. This allows for more pages to be crawled before reaching 
@@ -121,7 +121,8 @@ The program is subdivided into two main parts: a crawler that gets links from Wi
 	
 \section{Conclusion}
 
-Overall, this is only a first step in a network analysis process. Putting the drawing feature aside, the networks built by our program could then be used for further and more detailed network and relationship analysis.
+In conclusion, this project has showed the team the benefits of applying data science to certain tasks in order to automate otherwise labor-intensive processes. This project represents only the first step in a network analysis process. Putting the drawing feature aside, the networks built by our program could be used for further and more detailed network and relationship analysis. The python based code combines five separate modules in two main steps to crawl a user-defined Wikipedia article, identify links to other articles, and subsequently visualize the interconnections of those links in a map. One issue that quickly became evident, was that of the depth versus breadth of the search. While it isn’t a problem per se, it often lead to confusing visualizations depending on the starting article. An understanding of the issue at hand, however, allows the user to redefined the limits in order to produce more attractive visualizations. Although the wiki crawler has no implementable economic application, it does serve as an example of how data science and data manipulation has the ability to provide otherwise unreachable insights. 
+After extensive testing, the team has found only a few minor limitations to the program. The largest of those is the fact that the program has difficulty when crawling Wikipedia articles in languages other than English. While not certain, the team concluded that this is likely due to the “disambiguation” part of the parser, as other words were used in place of disambiguation in other languages. Furthermore, this program is only applicable to Wikipedia articles, which was the teams original goal but limits the application scope of the project. 
 
 
 
