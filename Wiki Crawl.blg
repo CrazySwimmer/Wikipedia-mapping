@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2017)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: Wiki Crawl.aux
+The style file: apalike.bst
+Database file #1: wiki_crawl.bib
+You've used 5 entries,
+            1935 wiz_defined-function locations,
+            492 strings with 4116 characters,
+and the built_in function-call counts, 1343 in all, are:
+= -- 132
+> -- 41
+< -- 5
++ -- 12
+- -- 12
+* -- 85
+:= -- 262
+add.period$ -- 15
+call.type$ -- 5
+change.case$ -- 29
+chr.to.int$ -- 5
+cite$ -- 5
+duplicate$ -- 58
+empty$ -- 92
+format.name$ -- 19
+if$ -- 252
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 4
+newline$ -- 28
+num.names$ -- 15
+pop$ -- 26
+preamble$ -- 1
+purify$ -- 31
+quote$ -- 0
+skip$ -- 48
+stack$ -- 0
+substring$ -- 60
+swap$ -- 2
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 26
+warning$ -- 0
+while$ -- 10
+width$ -- 0
+write$ -- 62

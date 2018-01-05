@@ -1,0 +1,9 @@
+\select@language {english}
+\contentsline {section}{\numberline {1}Introduction}{3}
+\contentsline {section}{\numberline {2}Tools}{3}
+\contentsline {subsection}{\numberline {2.1}Language}{3}
+\contentsline {subsection}{\numberline {2.2}Modules}{3}
+\contentsline {section}{\numberline {3}Program}{4}
+\contentsline {subsection}{\numberline {3.1}Crawler}{4}
+\contentsline {subsection}{\numberline {3.2}Building and drawing the network}{6}
+\contentsline {section}{\numberline {4}Conclusion}{7}

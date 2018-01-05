@@ -1,0 +1,30 @@
+\begin{thebibliography}{}
+
+\bibitem[Crummy, 2018]{cru}
+Crummy (2018).
+\newblock Crummy.
+\newblock https://www.crummy.com/software/BeautifulSoup/.
+
+\bibitem[Networkx, 2018]{net}
+Networkx (2018).
+\newblock Networkx.
+\newblock https://networkx.github.io.
+
+\bibitem[Provost and Fawcett, 2013]{dat}
+Provost, F. and Fawcett, T. (2013).
+\newblock {\em Data Science for Business: What you need to know about data
+  mining and data-analytic thinking.}
+\newblock O'Reilly Media, Inc.
+
+\bibitem[Request, 2018]{req}
+Request, P. (2018).
+\newblock Request.
+\newblock http://docs.python-requests.org/en/master/.
+
+\bibitem[Summerfield, 2007]{pyt}
+Summerfield, M. (2007).
+\newblock {\em Rapid GUI Programming with Python and Qt: the definitive guide
+  to PyQt programming.}
+\newblock Pearson Education.
+
+\end{thebibliography}
