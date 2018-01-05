@@ -5,6 +5,7 @@
 from bs4 import BeautifulSoup
 from itertools import compress
 import requests
+import timeit
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -110,10 +111,10 @@ def crawl(article,
         #Iterate over nodes that haven't been scraped
         for k in keys:
             if maxDepth == 0 or maxDepth > depth[k]:
-                print('key :', k) #Temp debug line
+#                print('key :', k) #Temp debug line
                 #Iterate over the values (edges / relationships / internal links)
                 for v in get_internal_links(k):
-                    print(k, '-', 'Item', itemCount, ':', v) #Temp debug line
+#                    print(k, '-', 'Item', itemCount, ':', v) #Temp debug line
                     if v not in network.keys(): #Add them to the keys if not present
                         links = get_internal_links(v) #Get the internal links
                         if maxBreadth == 0: #Set the max breadth as large as possible
@@ -231,6 +232,7 @@ def summarize_crawl(data, plotTitle='', with_labels=False,
     #Print the size of the network
     print('The network has {} nodes and {} edges'.format(len(G.nodes()), len(G.edges())))
 
+    start = timeit.default_timer() #Initialize timer
     plt.figure(figsize=(30,15)) #Set plot size
     plt.title(plotTitle) #Set plot title
     mapping = get_mapping(G.nodes(), data) #Set mapping for color and nodesize
@@ -246,6 +248,8 @@ def summarize_crawl(data, plotTitle='', with_labels=False,
                node_color=mapping,
                with_labels=with_labels,
                cmap=cmap)
+        
+    print('Time elapsed: {} secs.'.format(round(timeit.default_timer()-start,2)))
 
 
 #==============================================================================
@@ -288,4 +292,4 @@ with_labels=True            #Label names for nodes
 flexible_nodesize=False     #Node-size adapt to recurrence of node in the network
 #----------------------------------------------------------
 main_call(article=article, sF=sF, mB=mB, mD=mD, mI=mI, with_labels=with_labels,
-          flexible_nodesize=flexible_nodesize)   
+          flexible_nodesize=flexible_nodesize) 
